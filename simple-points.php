@@ -64,7 +64,19 @@ Class RWI_Simple_Points_Condition {
 		$status = false;
 		
 		// Query all conditions with the given trigger value.
-		$relevant_posts = get_posts( 'post_type=sp_condition&meta_value=user_post_count' );
+		$relevant_posts = get_posts( array(
+			'post_type'		=> 'sp_condition',
+			'meta_query'	=> array(
+				array(
+					'key'	=> '_simplepoints_condition_automatic',
+					'value'	=> 'on'
+				),
+				array(
+					'key'	=> '_simplepoints_condition_partone',
+					'value'	=> $trigger
+				)
+			)
+		) );
 		
 		if ( $relevant_posts )
 			$status = true;
@@ -74,11 +86,10 @@ Class RWI_Simple_Points_Condition {
 	
 	
 	/**
-	 * Sledge check.
+	 * Sledgehammer.
 	 */ 
 	public function sledge() {
-		//if ( $this->is_relevant( 'user_post_count' ) )
-		//	print_r( 'Woot' );
+		
 	}
 	
 	
