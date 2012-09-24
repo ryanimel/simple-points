@@ -11,9 +11,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 
-// Require files
-require plugin_dir_path( __FILE__ ) . 'listeners.php';
-
+// Require listener files
+require plugin_dir_path( __FILE__ ) . 'listeners/listeners.php';
 
 
 /**
