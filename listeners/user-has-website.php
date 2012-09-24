@@ -26,6 +26,6 @@ function rwi_user_profile_website_action( $user_id ) {
 		$status = false;
 	}
 
-	global $SimpleCondition;
-	$SimpleCondition->check( 'rwi_user_profile_website', $user_id, $status );
+	global $SimplePointsHelper;
+	$SimplePointsHelper->check( 'rwi_user_profile_website', $user_id, $status );
 }

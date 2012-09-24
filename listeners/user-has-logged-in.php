@@ -17,12 +17,12 @@ function rwi_user_login_bool( $array ) {
 
 add_action( 'init', 'rwi_user_login_bool_action', 10 );
 function rwi_user_login_bool_action() {
-	global $SimpleCondition;
+	global $SimplePointsHelper;
 	
 	if ( is_user_logged_in() ) {
 		$status = true;
 		$user_id = get_current_user_id();
-		$SimpleCondition->check( 'rwi_user_login', $user_id, $status );
+		$SimplePointsHelper->check( 'rwi_user_login', $user_id, $status );
 	}
 
 }
