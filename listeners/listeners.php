@@ -8,7 +8,9 @@
 $listeners = array(
 	'user-comment-count',
 	'user-has-logged-in',
-	'user-post-count'
+	'user-post-count',
+	'user-has-website',
+	'user-email'
 );
 
 foreach ( $listeners as $listener ) {

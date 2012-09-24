@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * User post count listener
  */
