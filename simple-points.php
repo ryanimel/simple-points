@@ -428,13 +428,10 @@ Class RWI_Simple_Points_Condition {
 				'publicly_queryable' => false,
 				'show_ui' => true,
 				'show_in_nav_menus' => true,
-				//'show_in_menu' => 'tools.php',
 				'show_in_admin_bar' => false,
-				'menu_position' => 80,
-				// 'menu_icon' => URL,
-				// TODO
+				'menu_position' => 200,
+				'menu_icon' => plugins_url( 'icon.png', __FILE__ ),
 				'capabilities' => array(
-				// Cribbed from http://plugins.svn.wordpress.org/wp-help/tags/0.3/wp-help.php
 					'publish_posts' => 'manage_options',
 					'edit_posts' => 'manage_options',
 					'edit_others_posts' => 'manage_options',
@@ -728,3 +725,24 @@ function pippin_show_user_id_column_content($value, $column_name, $user_id) {
 	if ( 'simplepoints_points' == $column_name )
 		return $points;
 }
+
+
+// Credit The Noun Project for the use of their icon in our dashboard menu.
+add_filter( 'admin_footer_text', 'rwi_simplepoints_admin_dashboard_footer', 1 );
+
+function rwi_simplepoints_admin_dashboard_footer() {
+	
+	if ( function_exists( 'rwi_simplebadges_admin_dashboard_footer' ) ) {
+		
+		remove_filter( 'admin_footer_text', 'rwi_simplebadges_admin_dashboard_footer' );
+		
+		echo 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>. &ldquo;Badge&rdquo; symbol by P.J. Onori, &ldquo;Video Game Controller&rdquo; <br />symbol by Joshua Theissen from <a href="http://thenounproject.com/">The Noun Project</a> collection.';
+	
+	} else {
+		
+		echo 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>. &ldquo;Video Game Controller&rdquo; symbol by Joshua Theissen from <a href="http://thenounproject.com/">The Noun Project</a> collection.';
+	
+	}
+
+}
+
