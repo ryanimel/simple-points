@@ -40,8 +40,7 @@ Class RWI_Simple_Points_Condition {
 		add_action( 'init', array( $this, 'initialize_metaboxes' ), 9999 );
 		add_filter( 'cmb_meta_boxes', array( $this, 'metaboxes' ) );
 		
-		add_action( 'admin_enqueue_scripts', array( $this, 'sledge' ) );
-		add_action( 'admin_footer', array( $this, 'print_results' ) );
+		add_action( 'admin_footer', array( $this, 'sledge' ) );
 		
 		add_action( 'admin_head', array( $this, 'logic_js' ) );
 
@@ -279,9 +278,8 @@ Class RWI_Simple_Points_Condition {
 	/**
 	 * Print the results of something. Only for testing.
 	 */
-	public function print_results( $stuff ) {
-		//delete_user_meta( 1, 'simplepoints_repeats' );
-		//print_r( get_user_meta( 1 ) );
+	public function sledge( $sledge ) {
+		print_r( $sledge );
 	}
 	
 	
@@ -578,13 +576,6 @@ Class RWI_Simple_Points_Condition {
 
 	}
 
-
-	/**
-	 * Sledgehammer.
-	 */ 
-	public function sledge() {
-	}
-	
 	
 	/**
 	 * Define the triggers the metabox will offer up.
