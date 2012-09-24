@@ -20,7 +20,7 @@ function rwi_user_comment_count( $array ) {
 add_action( 'comment_post', 'rwi_user_comment_count_action', 99999, 1 );
 
 function rwi_user_comment_count_action( $comment_id ) {
-	global $SimplePointsHelper;
+	global $SimpleCondition;
 	
 	$the_comment = get_comment( $comment_id );
 	$commenter_email = $the_comment->comment_author_email;
@@ -35,5 +35,5 @@ function rwi_user_comment_count_action( $comment_id ) {
 	global $wpdb;
 	$comment_count = $wpdb->get_var('SELECT COUNT(comment_ID) FROM ' . $wpdb->comments. ' WHERE comment_author_email = "' . $commenter_email . '"');
 	
-	$SimplePointsHelper->check( $id, $user_id, $comment_count );
+	$SimpleCondition->check( $id, $user_id, $comment_count );
 }

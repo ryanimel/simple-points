@@ -12,7 +12,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 // Require listener files
-require plugin_dir_path( __FILE__ ) . 'class-simple-helper.php';
 require plugin_dir_path( __FILE__ ) . 'listeners/listeners.php';
 
 
@@ -29,6 +28,9 @@ Class RWI_Simple_Points_Condition {
 
 
 	/*
+	 * This is our constructor, which is private to force the use of
+	 * getInstance() to make this a singleton
+	 * 
 	 * @return SimpleBadges
 	*/
 	public function __construct() {
@@ -127,6 +129,47 @@ Class RWI_Simple_Points_Condition {
 		}
 
 	}
+	
+	
+	/**
+	 * Check to see if a given point value deserves to be awarded.
+	 */
+	public function check( $trigger, $user, $target ) {
+		
+		// We don't care if the trigger isn't in use. Kill early.
+		if ( ! $this->is_relevant( $trigger ) )
+			return;
+		
+		// Get only the relevant conditions	
+		$conditions = $this->get_conditions( $trigger );
+
+		foreach( $conditions as $condition ) {
+			
+			// Is this available to the current user?
+			if ( $this->is_available( $condition->ID, $user ) ) {
+
+				$check = array(
+					'condition_id'			=> $condition->ID,
+					'trigger_id'			=> $trigger,
+					'trigger_type'			=> $this->get_trigger_type( $trigger ),
+					'trigger_argument'		=> $this->get_condition_trigger_argument( $condition->ID, $this->get_trigger_type( $trigger ) ),
+					'user'					=> $user,
+					'target'				=> $target,
+					'trigger_user_input'	=> $this->get_condition_user_input( $condition->ID ),
+					'point_value'			=> get_post_meta( $condition->ID, '_simplepoints_condition_point_value', true )
+				);
+
+				if ( $this->is_one_time_only( $condition->ID, $user ) ) {
+					$this->one_time_complete( $condition->ID, $user );
+				}
+				
+				$this->evaluate( $check );
+
+			}
+
+		}
+
+	}
 
 
 	/**
@@ -145,11 +188,7 @@ Class RWI_Simple_Points_Condition {
 	 * Evaluate whether a point should be given.
 	 */
 	private function evaluate( $check ) {
-
-		// We don't care if the trigger isn't in use. Kill early.
-		if ( ! $this->is_relevant( $check['trigger_id'] ) )
-			return;
-
+		
 		$type = $check['trigger_type'];
 		$argument = $check['trigger_argument'];
 		$input = $check['trigger_user_input'];
@@ -542,8 +581,8 @@ Class RWI_Simple_Points_Condition {
 	 * Define the triggers the metabox will offer up.
 	 */
 	private function metabox_triggers() {
-		global $SimplePointsHelper;
-		$triggers = $SimplePointsHelper->helper();
+		
+		$triggers = $this->helper();
 		
 		foreach( $triggers as $trigger ) {
 			$all[] = array(
@@ -653,7 +692,6 @@ Class RWI_Simple_Points_Condition {
 
 // Instantiate our class
 $SimpleCondition = new RWI_Simple_Points_Condition;
-
 
 
 
