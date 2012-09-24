@@ -7,7 +7,6 @@
 // Listener array
 $listeners = array(
 	'user-comment-count',
-	'badge-award-count',
 	'user-has-logged-in',
 	'user-post-count'
 );
